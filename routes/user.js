@@ -11,4 +11,9 @@ router.get('/:username/followers',userController.fetchFollowers)
 router.get('/:username/following',userController.fetchFollowing)
 
 router.get("/:username/starred_repos",userController.fetchStarredRepos)
+
+router.get('/:username/repos/:reponame',userController.fetchARepo)
+
+router.get('/:username/repos/:reponame/stargazers',userController.fetchStarGazers)
+
 module.exports=router
