@@ -144,7 +144,7 @@ module.exports={
                 stars:data.stargazers_count,
                 stargazers_url:`${hostURL}/${username}/repos/${reponame}/stargazers`,
             }
-            console.log(data.fork)
+            
             if(data.fork === true){
                 repoBody.fork=data.fork
                 repoBody.parent_repo={
@@ -173,6 +173,35 @@ module.exports={
             const data=await result.json()
             const stargazers=listUsers(data,hostURL)
             res.status(200).json({stargazers:stargazers})
+        } catch (error) {
+            res.status(404).json({
+                error:error.message
+            })
+        }
+    },
+    fetchForks:async(req,res,next)=>{
+        const username=req.params.username
+        const reponame=req.params.reponame
+        const hostURL=`${req.protocol}://${req.get('host')}`
+        try {
+            const result=await fetch(`${github_api}/repos/${username}/${reponame}/forks`)
+            const data=await result.json()
+            const forkedRepos=data.map(repo=>(
+                {
+                    full_name:repo.full_name,
+                    github_url:repo.html_url,
+                    repo_url:`${hostURL}/user/${repo.owner.login}/repos/${repo.name}`,
+                    owner:{
+                        name:repo.owner.login,
+                        image_url:repo.owner.avatar_url,
+                        github_url:repo.owner.html_url,
+                        profile_url:`${hostURL}/user/${repo.owner.login}`
+                    }
+                }
+            ))
+            res.status(200).json({
+                forkedRepos:forkedRepos
+            })
         } catch (error) {
             res.status(404).json({
                 error:error.message

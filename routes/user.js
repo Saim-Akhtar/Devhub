@@ -16,4 +16,6 @@ router.get('/:username/repos/:reponame',userController.fetchARepo)
 
 router.get('/:username/repos/:reponame/stargazers',userController.fetchStarGazers)
 
+router.get('/:username/repos/:reponame/forks',userController.fetchForks)
+
 module.exports=router
