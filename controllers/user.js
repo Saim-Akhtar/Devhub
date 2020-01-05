@@ -1,4 +1,5 @@
 const fetch=require('node-fetch')
+const { URLSearchParams } = require('url');
 
 const github_api='https://api.github.com'
 
@@ -12,6 +13,36 @@ const listUsers=(data,hostURL)=>{
 }
 
 module.exports={
+    getToken:async(req,res,next)=>{
+        const params=new URLSearchParams()
+        const data={
+            client_id:process.env.GITHUB_CLIENT_ID,
+            client_secret:process.env.GITHUB_CLIENT_SECRET,
+            code: req.body.code
+        }
+        params.append("client_id",data.client_id)
+        params.append("client_secret",data.client_secret)
+        params.append("code",data.code)
+        const url=`https://github.com/login/oauth/access_token`
+        try {
+            const result=await fetch(url,{method: "POST",headers:{'Content-Type': 'application/x-www-form-urlencoded'},body:params})
+            let data= await result.text()
+            data=data.split('&')[0].split('=')
+            if(data[0] === 'access_token'){
+                const body={"access_token":data[1]}
+                res.status("200").json(body)
+            }
+            else{
+                throw new Error("Bad Verification Code")
+            }
+            
+        } catch (error) {
+        console.log(error)        
+        }
+    },
+    login:async(req,res,next)=>{
+        res.status(200).json({ user:req.user });
+    },
     fetchUser:async(req,res,next)=>{
         const username=req.params.username
         try {

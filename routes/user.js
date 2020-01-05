@@ -1,6 +1,13 @@
 const router=require('express').Router();
+const passport=require('passport')
 
 const userController=require('../controllers/user')
+
+require('../middleware/passport');
+
+router.post('/login/getToken',userController.getToken)
+
+router.post('/login/github',passport.authenticate('github-token', { session: false }),userController.login)
 
 router.get('/:username',userController.fetchUser)
 
