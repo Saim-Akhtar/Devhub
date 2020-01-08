@@ -1,8 +1,20 @@
-const fetch=require('node-fetch')
+const JWT=require('jsonwebtoken');
+const User=require('../models/user');
+const fetch=require('node-fetch');
 const { URLSearchParams } = require('url');
 
 const github_api='https://api.github.com'
 
+// generating a JWT token
+generateToken = user => {
+    return JWT.sign({
+            id: user._id
+        },
+        process.env.JWT_KEY, {
+            expiresIn: new Date().setDate(new Date().getDate() + 1) // current time + 1 day ahead
+                // exp: Math.floor(Date.now() / 1000) + 30
+        });
+}
 
 const listUsers=(data,hostURL)=>{
     return data.map(user=>(
@@ -41,7 +53,23 @@ module.exports={
         }
     },
     login:async(req,res,next)=>{
-        res.status(200).json({ user:req.user });
+        // res.status(200).json({ user:req.user });
+        const token = generateToken(req.user);
+
+        res.status(200).json({
+            token: token,
+            id: "The id is " + req.user._id
+        });
+    },
+    fetchAllUsers:async(req,res,next)=>{
+        try {
+            const users=await User.find()
+            res.status(200).json({
+                users:users
+            })
+        } catch (error) {
+            res.status(404).json({error:error})
+        }
     },
     fetchUser:async(req,res,next)=>{
         const username=req.params.username
@@ -237,6 +265,23 @@ module.exports={
             res.status(404).json({
                 error:error.message
             })
+        }
+    },
+    updateUser:async(req,res,next)=>{
+        const userID=req.params.userID
+        const data=req.body
+        // const hostURL=`${req.protocol}://${req.get('host')}`
+        try{
+            const user=await User.findOneAndUpdate({ _id: userID }, req.body)
+            if(!user){
+                throw Error("User Not Found")
+            }
+            res.status(200).json({
+                message: "User Profile Updated Successfully"
+            })
+        }
+        catch(err){
+            res.status(404).json({error:err})
         }
     }
 }

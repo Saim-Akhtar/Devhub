@@ -1,5 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
+const mongoose=require('mongoose');
 const cors=require('cors');
 const dotenv=require('dotenv');
 
@@ -9,6 +10,14 @@ const app=express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
+
+mongoose.set('useCreateIndex', true);
+mongoose.connect(`mongodb+srv://Saim:${process.env.ATLAS_USER_PWD}@devhub-cluster-j1z5m.mongodb.net/test?retryWrites=true&w=majority`, {
+    useNewUrlParser: true,
+     useUnifiedTopology: true 
+})
+
+mongoose.Promise = global.Promise
 
 
 // getting routes 

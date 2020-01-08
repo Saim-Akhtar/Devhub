@@ -5,9 +5,7 @@ const userController=require('../controllers/user')
 
 require('../middleware/passport');
 
-router.post('/login/getToken',userController.getToken)
-
-router.post('/login/github',passport.authenticate('github-token', { session: false }),userController.login)
+router.get('/',userController.fetchAllUsers)
 
 router.get('/:username',userController.fetchUser)
 
@@ -24,5 +22,12 @@ router.get('/:username/repos/:reponame',userController.fetchARepo)
 router.get('/:username/repos/:reponame/stargazers',userController.fetchStarGazers)
 
 router.get('/:username/repos/:reponame/forks',userController.fetchForks)
+
+router.put('/:userId',userController.updateUser)
+
+router.post('/login/getToken',userController.getToken)
+
+router.post('/login/github',passport.authenticate('github-token', { session: false }),userController.login)
+
 
 module.exports=router
