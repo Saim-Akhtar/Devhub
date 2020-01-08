@@ -11,16 +11,22 @@ export const onSuccess = async(response) => {
         })
       })
       const token=await res.json()
-      // console.log(token)
+      
       const result=await fetch(`http://localhost:8000/user/login/github`,{
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(token)
       })
+      
       const data=await result.json()
       // console.log(data)
+      const auth_token=localStorage.getItem("token")
+      if(!auth_token){
+        localStorage.setItem("token",JSON.stringify(data))
+      }
+      
       return data
     }
   
