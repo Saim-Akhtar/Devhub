@@ -1,41 +1,46 @@
-export const onSuccess = async(response) => {
-    // console.log("here we go")
-    try{
-      const res=await fetch(`http://localhost:8000/user/login/getToken`,{
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          code:response.code
-        })
-      })
-      const token=await res.json()
-      
-      const result=await fetch(`http://localhost:8000/user/login/github`,{
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(token)
-      })
-      
-      const data=await result.json()
-      // console.log(data)
-      const auth_token=localStorage.getItem("token")
-      if(!auth_token){
-        localStorage.setItem("token",JSON.stringify(data))
-      }
-      
-      return data
-    }
-  
-    catch(err){
-      console.log(err)
-      return err
-    }
+import _ from 'lodash'
+let api='http://localhost:8000'//http://localhost:8000/user/mauwia
+let header={
+        'Content-Type': 'application/json'  
 }
-export const onFailure = async(response) =>{
-    console.error(response);
-    return response
-  }
+export const getUser=async (value)=>{
+    try{
+    let result=await fetch(`${api}/user/${value}`,{method:'GET',header})
+    let data=await result.json();
+    return data
+    }
+    catch(err){console.log(err)}
+}
+export const getRepo=async (name,repo)=>{
+    try{
+        let result=await fetch(`${api}/user/${name}/repos/${repo}`,{method:'GET',header})
+        let data=await result.json()
+        console.log(data)
+        return data
+    }
+    catch(err){console.log(err)}
+}
+export const getRepos=async (value)=>{
+    try{
+    let result=await fetch(`${api}/user/${value}/repos`,{method:'GET',header})
+    let data=await result.json();
+    return data
+    }
+    catch(err){console.log(err)}
+}
+export const getFollowers=async (value)=>{
+    try{
+    let result=await fetch(`${api}/user/${value}/followers`,{method:'GET',header})
+    let data=await result.json();
+    return data
+    }
+    catch(err){console.log(err)}
+}
+export const getFollowing=async (value)=>{
+    try{
+    let result=await fetch(`${api}/user/${value}/following`,{method:'GET',header})
+    let data=await result.json();
+    return data
+    }
+    catch(err){console.log(err)}
+}

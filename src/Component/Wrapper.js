@@ -13,6 +13,7 @@ import DashBoard from './DashBoard/DashBoard';
 import EditProfile from './DashBoard/Forms/EditProfile';
 import ExperienceForm from './DashBoard/Forms/ExperinceForm';
 import EducationForm from './DashBoard/Forms/EducationForm';
+import Search from './Search/Search';
 
 
 let Wrapper =()=> {
@@ -33,6 +34,7 @@ let Wrapper =()=> {
       <Route path='/editprofile' component={EditProfile}/>
       <Route path='/experform' component={ExperienceForm}/>
       <Route path='/educaform' component={EducationForm}/>
+      <Route path='/search/:name' component={Search}/>
 
       
       </div>

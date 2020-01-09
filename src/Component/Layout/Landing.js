@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import GitHubLogin from 'react-github-login';
-import {onFailure} from '../../Api/Api'
+import {onFailure} from '../../Api/AuthApi'
 import {signIn} from '../../Action'
 
 
