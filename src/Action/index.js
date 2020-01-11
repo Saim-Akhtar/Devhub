@@ -1,15 +1,33 @@
 import { onSuccess } from "../Api/AuthApi"
 import History from '../History'
-import { getUser,getRepos,getRepo,getFollowers,getFollowing } from "../Api/Api"
+import { getUser,getRepos,getFollowers,getFollowing } from "../Api/Api"
 
 export const signIn=(response)=>async dispatch=>{
    
-    History.push('/dashboard')
+    History.push('/')
     let data=await onSuccess(response)
     dispatch({type:"SIGN_IN",payload:data})
     
 }
+export const checkedLoggedIn=(data)=>{
+    return{
+        type:"CHECKED_LOGGED_IN",
+        payload:data
+    }
+}
+export const openChatNav=()=>{
+    return{
+        type:"OPEN_CHAT_NAV"
+    }
+}
+
+export const closeChatNav=()=>{
+    return{
+        type:"CLOSE_CHAT_NAV"
+    }
+}
 export const signOut=()=>{
+    localStorage.clear()
     return{type:"SIGN_OUT"}
 }
 export const onSearch=(value)=>async dispatch=>{

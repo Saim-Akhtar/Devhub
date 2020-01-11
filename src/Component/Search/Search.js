@@ -25,9 +25,9 @@ class Search extends React.Component{
               </div>
               <ProfileCard location={location} avatar_url={avatar_url} login={login}/>
               <nav className="nav nav-pills nav-justified">
-               <Link className="nav-item nav-link active" to={`/search/${login}/gitrepo`}>Git Repo</Link>
-             <Link className="nav-item nav-link active" to={`/search/${login}/followers`}>Followers</Link>
-             <Link className="nav-item nav-link active" to={`/search/${login}/following`} >Following</Link>
+    <Link className="nav-item nav-link active" to={`/search/${login}/gitrepo`}>Git Repo <span>({this.props.user.public_repos})</span></Link>
+    <Link className="nav-item nav-link active" to={`/search/${login}/followers`}>Followers <span>({this.props.user.followers})</span></Link>
+    <Link className="nav-item nav-link active" to={`/search/${login}/following`} >Following <span>({this.props.user.following})</span></Link>
              </nav>
                  <Route path='/search/:name/gitrepo' exact render={()=>{return<GitRepoCard name={login}/>}}/>
                 <Route path='/search/:name/followers' exact render={()=>{return<Follower name={login}/>}}/>

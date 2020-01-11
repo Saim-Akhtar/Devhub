@@ -7,7 +7,7 @@ class  DashBoard extends React.Component{
     render(){
         if(!this.props.isLoggedin){
             return<div className='text-center'><div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
+            <span className="sr-only">Loading...</span>
             </div></div>
         }
         return<div className='container'>

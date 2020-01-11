@@ -3,7 +3,6 @@ import Navbar from './Layout/Navbar'
 import Footer from './Layout/Footer';
 import Landing from './Layout/Landing';
 import { Route } from 'react-router-dom';
-// import Login from './Auth/Login';
 import DeveloperList from './Developer/DevelopersList ';
 import './Layout/App.css'
 import Developer from './Developer/Developer1';
@@ -14,23 +13,25 @@ import EditProfile from './DashBoard/Forms/EditProfile';
 import ExperienceForm from './DashBoard/Forms/ExperinceForm';
 import EducationForm from './DashBoard/Forms/EducationForm';
 import Search from './Search/Search';
+import { connect } from 'react-redux';
+import Chat from './Chat/Chat';
 
 
-let Wrapper =()=> {
+class Wrapper extends React.Component{
   
+  render(){
   return (
     <div className='container-fluid'>
       <Navbar/>
     <div className="row">
       <div className="col" style={{paddingRight:0,paddingLeft:0}}>
-      
-      <Route path='/' exact component={Landing} />
-      {/* <Route path='/login' component={Login}/> */}
+      {localStorage.token &&<Route path='/' exact component={DashBoard}></Route>}
+      {!localStorage.token && <Route path='/' exact component={Landing} />}
       <Route path='/developers' component={DeveloperList}/>
       <Route path="/developer/:id" component={Developer}/>
-      <Route path="/posts" component={Posts}/>
+      {localStorage.token && <Route path="/posts" component={Posts}/>}
       <Route path='/post/:id'component={Post}/>
-      <Route path="/dashboard" component={DashBoard}/>
+      {/* <Route path="/dashboard" component={DashBoard}/> */}
       <Route path='/editprofile' component={EditProfile}/>
       <Route path='/experform' component={ExperienceForm}/>
       <Route path='/educaform' component={EducationForm}/>
@@ -38,15 +39,23 @@ let Wrapper =()=> {
 
       
       </div>
-      {!true && <div className="bg-info col-2 chat">
+      {this.props.chatNav && <div className="bg-dark text-white col-2 chat">
         <h4>Chat</h4>
+        <Chat/>
         </div>}
       
     </div>
     <Footer/>
     </div>
   );
+  }
   
 }
+let mapStateToProps=(state)=>{
+  return{
+    auth:state.Auth,
+    chatNav:state.ChatNav
+  }
+}
 
-export default Wrapper;
+export default connect(mapStateToProps)(Wrapper);

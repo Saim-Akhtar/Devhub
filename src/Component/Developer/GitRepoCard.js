@@ -9,7 +9,9 @@ class GitRepoCard extends React.Component{
     render()
     {
         if(!this.props.repos)
-        return<div>Loading</div>
+        return<div className='text-center' style={{marginTop:10}}><div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+        </div></div>  
         return<div>
         <hr />
         <h3 className="mb-4">Github Repos</h3>

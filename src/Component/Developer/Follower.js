@@ -8,7 +8,9 @@ class Follower extends React.Component{
     }
   render(){
       if(!this.props.followers)
-      return<div>loading</div>
+      return<div className='text-center' style={{marginTop:10}}><div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+      </div></div>
       return<div className='container'>
           <div className="row">
         <div className="col-md-12">

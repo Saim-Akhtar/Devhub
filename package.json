@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.12.0",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-bootstrap-sidebar": "0.0.1",
     "react-dom": "^16.12.0",
     "react-github-login": "^1.0.3",

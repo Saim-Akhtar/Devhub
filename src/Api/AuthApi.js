@@ -21,7 +21,8 @@ export const onSuccess = async(response) => {
     })
     
     const data=await result.json()
-    console.log(data)
+    data.id=data.id.split(' ')[3]
+    // console.log(data)
     // const auth_token=localStorage.getItem("token")
       localStorage.setItem("token",JSON.stringify(data))
     

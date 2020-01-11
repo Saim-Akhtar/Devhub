@@ -13,13 +13,29 @@ img {
   }
   .chat {
     position: relative;
-    height: 140vh;
+    height: 100vh;
     margin-top: -24px;
     margin-bottom: -50px;
+    /* animation-name: example;
+    animation-duration: 4s; */
   }
-  
+  /* @keyframes example {
+    0%   {background-color:red; left:0px; top:0px;}
+     25%  {background-color:yellow; left:0px; top:0px;}
+    50%  {background-color:blue; left:200px; top:0px;}
+   
+  }  */
   .landing-inner {
     padding-top: 80px;
+  }
+  .slider-enter {
+    opacity: 0.01;
+    transition: opacity 500ms ease-in;
+  }
+  
+  .slider-leave {
+    opacity: 0.01;
+    transition: opacity 500ms ease-in;
   }
   
   .dark-overlay {
