@@ -13,18 +13,14 @@ passport.use(new GithubTokenStrategy({
     // passReqToCallback: true
 }, async(accessToken, refreshToken, profile, done)=> {
     try{    
-    console.log('profile', profile._json);
-        console.log('accessToken', accessToken);
-        console.log('refreshToken', refreshToken);
         
             const existingUser = await User.findOne({ "github.id": profile.id });
             if (existingUser) {
                 return done(null, existingUser);
             }
-    
             const newUser = new User({
                 _id: mongoose.Types.ObjectId(),
-                gitub: {
+                github: {
                     id: profile.id,
                     userName:profile.username,
                     firstName: profile.name.givenName,
@@ -44,3 +40,24 @@ passport.use(new GithubTokenStrategy({
 }));
 
 
+passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token'),
+    secretOrKey: process.env.JWT_KEY
+},
+async(jwtPayload, done) => {
+
+    try {
+        const user = await User.findById(jwtPayload.sub);
+
+        // If user doesn't exists, handle it
+        if (!user) {
+            return done(null, false);
+        }
+
+        // Otherwise, return the user
+        done(null, user);
+    } catch (error) {
+        done(error, false);
+    }
+}
+))

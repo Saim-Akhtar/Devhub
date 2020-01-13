@@ -62,6 +62,7 @@ module.exports={
         });
     },
     fetchAllUsers:async(req,res,next)=>{
+        console.log("here we go")
         try {
             const users=await User.find()
             res.status(200).json({
@@ -73,37 +74,65 @@ module.exports={
     },
     fetchUser:async(req,res,next)=>{
         const username=req.params.username
+        const hostURL=`${req.protocol}://${req.get('host')}`
         try {
-            
+            const userRes=await User.findOne({"github.userName": username})
             const result=await fetch(`${github_api}/users/${username}`)
             const data=await result.json()
+            if(data.message){
+                throw Error("User doesn't have Account on Github");
+            }
+            if(userRes){
+                const user={}
+                user.github_url=data.html_url
+                user.followers=data.followers
+                user.followers_url=`${hostURL}/user/${username}/followers`
+                user.following=data.following
+                user.following_url=`${hostURL}/user/${username}/following`
+                user.public_repos=data.public_repos
+                // console.log({...userRes._doc})
+                return res.status(200).json({userExists:true,user:{...userRes._doc,...user}})
+            }
+            
           
-          const {id,login,avatar_url,html_url,followers,
+          const {login,avatar_url,html_url,followers,
             following,starred_url,name,repos_url,email,public_repos,location}=data
-            const user={id,login,avatar_url,html_url,followers,
+            const user={login,avatar_url,html_url,followers,
                 following,starred_url,name,repos_url,email,public_repos,location}
-          res.status(200).json({user:user})
+          res.status(200).json({userExists:false,user:user})
         } 
         catch (error) {
+            console.log(error.status)
             res.status(404).json({
-                error:error.message
+                error:error.message,
+                status:404
             })
         }
     },
     fetchRepos:async(req,res,next)=>{
         const username=req.params.username
-        
+        const hostURL=`${req.protocol}://${req.get('host')}`
         try {
             const result=await fetch(`${github_api}/users/${username}/repos?per_page=1000`)
             const data=await result.json()
-          const repos=data.filter(repo=>repo.owner.login === username).map(repo=>{
-            const repoName=repo.full_name
-            const index=repoName.indexOf('/')+1
-          return repoName.slice(index)
-          })
+        //   const repos=data.filter(repo=>repo.owner.login === username).map(repo=>{
+        //     const repoName=repo.full_name
+        //     const index=repoName.indexOf('/')+1
+        //   return repoName.slice(index)
+        //   })
+        const repos=data.map(repo=>(
+            {repo_name:repo.name,
+            repo_owner:{
+              user_name:repo.owner.login,
+              url: `${hostURL}/user/${repo.owner.login}`  
+            },
+            github_url:repo.html_url,
+            stars:repo.stargazers_count
+        }
+        ))
           res.status(200).json({
               total:repos.length,
-              repos:repos.sort()
+              repos:repos
             })
         } 
         catch (error) {
@@ -269,7 +298,7 @@ module.exports={
     },
     updateUser:async(req,res,next)=>{
         const userID=req.params.userID
-        const data=req.body
+        
         // const hostURL=`${req.protocol}://${req.get('host')}`
         try{
             const user=await User.findOneAndUpdate({ _id: userID }, req.body)
