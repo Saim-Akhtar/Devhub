@@ -2,24 +2,25 @@ const mongoose= require('mongoose')
 
 const commentSchema=mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
-    user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    comment_user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     comment_text:String,
+    commentedAt:{type: Date,default: new Date().toLocaleDateString() },
 })
 
 const repoSchema=mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
-    user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    title:String
+    repo_user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    repo_title:String
 })
 
 const postSchema =mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
     user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     content:String,
-    links:[String],
+    // links:[String],
     repo_attached:Boolean,
     repo:repoSchema,
-    createdAt:String,
+    createdAt:{type: Date,default: new Date().toLocaleDateString() },
     comments:[commentSchema]
 })
 

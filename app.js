@@ -22,9 +22,11 @@ mongoose.Promise = global.Promise
 
 // getting routes 
 const userRoute=require('./routes/user')
+const postRoute=require('./routes/post')
 
 // Setting url Routes
 app.use('/user',userRoute)
+app.use('/post',postRoute)
 
 // Error Handling
 app.use((req, res, next) => {
