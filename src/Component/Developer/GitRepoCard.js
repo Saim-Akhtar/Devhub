@@ -1,51 +1,50 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {getReposits} from '../../Action'
 import { connect } from 'react-redux'
 class GitRepoCard extends React.Component{
     componentDidMount(){
-      this.props.getReposits(this.props.name)
+      this.props.getReposits(this.props.match.params.id)
     }
     render()
-    {
+    {   
         if(!this.props.repos)
-        return<div className='text-center' style={{marginTop:10}}><div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
+        return<div className='text-center' style={{marginTop:10}}><div className="spinner-border text-primary" role="status">
+        <span className="sr-only">Loading...</span>
         </div></div>  
+        
         return<div>
         <hr />
         <h3 className="mb-4">Github Repos</h3>
-        <div  className="card card-body mb-2 ">
-          <div className="row ">
-            {this.props.repos.map(repo=>{
-              return<><div className="col-md-6" key={repo}>
+       
+              {this.props.repos.map(repo=><div  className="card card-body mb-2 bg-dark" key={repo.repo_name}>
+              <div className='row'>
+                <div className="col-md-6" >
               <h4>
-                <Link  className="text-info" to=''> {repo}
-                </Link>
+                <a  className="text-info" href={repo.github_url}>
+                  {repo.repo_name}
+                </a>
               </h4>
-              <p>Repository description</p>
             </div>
             <div className="col-md-6">
-              <span className="badge badge-info mr-1">
-                Stars: 44
+              <span className="badge badge-success mr-1">
+                Stars:{repo.stars}
               </span>
               <span className="badge badge-secondary mr-1">
                 Watchers: 21
               </span>
               <span className="badge badge-success">
-                Forks: 122
+                Forks: 1
               </span>
-            </div></>
-            })}
-            
-          </div>
-        </div>
+            </div></div></div>
+                
+                )}
       </div>
     }
 }
 let mapStateToProps=state=>{
-  return {
-    repos:state.GitUserProfile.repos
+  return{
+    repos:state.Developers.repos
   }
 }
+
 export default connect(mapStateToProps,{getReposits})(GitRepoCard)

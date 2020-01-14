@@ -1,14 +1,16 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {signOut,onSearch,checkedLoggedIn,openChatNav,closeChatNav} from '../../Action'
+import History from '../../History'
+import {signOut,GetUser,checkedLoggedIn} from '../../Action'
 import "./App.css"
 
 class  Navbar extends React.Component{
         state={search:''}
         onSubmit=e=>{
             e.preventDefault()
-            this.props.onSearch(this.state.search)
+            this.props.GetUser(this.state.search)
+            History.push(`/search/${this.state.search}`)
             this.setState({search:''})
         }
         componentDidMount(){
@@ -44,10 +46,7 @@ class  Navbar extends React.Component{
               </li>
               
               {this.props.isLoggedin && <>
-                <li className='nav-item'>
-                {!this.props.chatNav && <Link className='nav-link' to='/' onClick={this.props.openChatNav}>Chat</Link>}
-                {this.props.chatNav && <Link className='nav-link' to='/' onClick={this.props.closeChatNav}>Close</Link>}
-              </li>
+                
                 <li className="nav-item">
                   <Link className="nav-link" to="/posts">Posts</Link>
               </li>
@@ -72,4 +71,4 @@ const mapStateToProps=state=>{
     chatNav:state.ChatNav
   } 
 }
-export default connect(mapStateToProps,{signOut,onSearch,checkedLoggedIn,openChatNav,closeChatNav})(Navbar)
+export default connect(mapStateToProps,{signOut,GetUser,checkedLoggedIn})(Navbar)

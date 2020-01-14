@@ -1,19 +1,22 @@
 import React from 'react'
-import { onSearch } from '../../Action'
+import { GetUser } from '../../Action'
 import {Link,Route} from 'react-router-dom'
 import { connect } from 'react-redux'
 import ProfileCard from '../Developer/ProfileCard'
 import GitRepoCard from '../Developer/GitRepoCard'
 import Follower from '../Developer/Follower'
 import Following from '../Developer/Following'
+import StarredRepo from '../Developer/StarredRepo'
 
 
 class Search extends React.Component{
     
     render(){
+        let {id}=this.props.match.params.id
         if(!this.props.user)
-        return<div>Search somthing</div>
-        let {login,avatar_url,location}=this.props.user
+        return<div className='text-center' style={{marginTop:10}}><div className="spinner-border text-primary" role="status">
+        <span className="sr-only">Loading...</span>
+        </div></div>
         return<div className="profile">
         <div className="container">
           <div className="row">
@@ -23,16 +26,20 @@ class Search extends React.Component{
                   <Link to='/' className="btn btn-light mb-3 float-left">Back To Home</Link>
                 </div>
               </div>
-              <ProfileCard location={location} avatar_url={avatar_url} login={login}/>
+              {this.props.user.github && <ProfileCard profilePic={this.props.user.profilePic} location={this.props.user.location} name={`${this.props.user.github.firstName}${this.props.user.github.lastName}`}/>}
+              {!this.props.user.github && <ProfileCard profilePic={this.props.user.avatar_url} name={this.props.user.login} location={this.props.user.location} />}
               <nav className="nav nav-pills nav-justified">
-    <Link className="nav-item nav-link active" to={`/search/${login}/gitrepo`}>Git Repo <span>({this.props.user.public_repos})</span></Link>
-    <Link className="nav-item nav-link active" to={`/search/${login}/followers`}>Followers <span>({this.props.user.followers})</span></Link>
-    <Link className="nav-item nav-link active" to={`/search/${login}/following`} >Following <span>({this.props.user.following})</span></Link>
+    <Link className="nav-item nav-link active" to={`/search/${this.props.match.params.id}/gitrepo`}>Git Repo <span>({this.props.user.public_repos})</span></Link>
+    <Link className="nav-item nav-link active" to={`/search/${this.props.match.params.id}/followers`}>Followers <span>({this.props.user.followers})</span></Link>
+    <Link className="nav-item nav-link active" to={`/search/${this.props.match.params.id}/following`} >Following <span>({this.props.user.following})</span></Link>
+    <Link className="nav-item nav-link active" to={`/search/${this.props.match.params.id}/starred_repos`} >Starred Repo </Link>
+
              </nav>
-                 <Route path='/search/:name/gitrepo' exact render={()=>{return<GitRepoCard name={login}/>}}/>
-                <Route path='/search/:name/followers' exact render={()=>{return<Follower name={login}/>}}/>
-                <Route path='/search/:name/following' exact render={()=>{return<Following name={login}/>}}/>
-                {this.props.location.pathname.split('/').length===4 &&<Link to={`/search/${login}`}>ShowLess</Link>}
+                 <Route path='/search/:id/gitrepo' exact component={GitRepoCard} /> 
+                <Route path='/search/:id/followers' exact component={Follower} /> 
+                <Route path='/search/:id/following' exact component={Following} /> 
+                <Route path='/search/:id/starred_repos' exact component={StarredRepo} /> 
+                {this.props.location.pathname.split('/').length===4 &&<Link to={`/search/${id}`}>ShowLess</Link>}
               </div>
               </div>
               </div>
@@ -41,7 +48,7 @@ class Search extends React.Component{
 }
 let mapStateToProps=state=>{
     return{
-        user:state.GitUserProfile.user
+        user:state.Developers.user
     }
 }
-export default connect(mapStateToProps,{onSearch})(Search)
+export default connect(mapStateToProps,{GetUser})(Search)

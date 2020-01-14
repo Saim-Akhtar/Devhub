@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 class  DashBoard extends React.Component{
     render(){
         if(!this.props.isLoggedin){
-            return<div className='text-center'><div class="spinner-border text-primary" role="status">
+            return<div className='text-center'><div className="spinner-border text-primary" role="status">
             <span className="sr-only">Loading...</span>
             </div></div>
         }

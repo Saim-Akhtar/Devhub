@@ -1,10 +1,10 @@
 import React from 'react'
-import {GetFollowers, onSearch} from '../../Action'
+import {GetFollowers, GetUser} from '../../Action'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 class Follower extends React.Component{
     componentDidMount(){
-        this.props.GetFollowers(this.props.name)
+        this.props.GetFollowers(this.props.match.params.id)
     }
   render(){
       if(!this.props.followers)
@@ -20,7 +20,7 @@ class Follower extends React.Component{
                   <div className="col-1 col-md-1 ">
                     <img className="rounded-circle" src={follower.img} alt="" />
                   </div>
-            <Link className='col-6' to={`/search/${follower.user_name}`} onClick={()=>{this.props.onSearch(follower.user_name)}}>{follower.user_name}</Link>
+            <Link className='col-6' to={`/search/${follower.user_name}`} onClick={()=>{this.props.GetUser(follower.user_name)}}>{follower.user_name}</Link>
                 </div>
                 </div>
             })}
@@ -31,7 +31,7 @@ class Follower extends React.Component{
 }
 let mapStateToProps=state=>{
     return {
-     followers:state.GitUserProfile.followers
+     followers:state.Developers.followers
     }
   }
-export default connect(mapStateToProps,{onSearch,GetFollowers})(Follower)
+export default connect(mapStateToProps,{GetUser,GetFollowers})(Follower)

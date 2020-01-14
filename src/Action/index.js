@@ -1,6 +1,6 @@
 import { onSuccess } from "../Api/AuthApi"
+import {getRepos,getFollowers,getFollowing,getStarredRepos, getAllUsers,getUser } from "../Api/Api"
 import History from '../History'
-import { getUser,getRepos,getFollowers,getFollowing } from "../Api/Api"
 
 export const signIn=(response)=>async dispatch=>{
    
@@ -15,25 +15,18 @@ export const checkedLoggedIn=(data)=>{
         payload:data
     }
 }
-export const openChatNav=()=>{
-    return{
-        type:"OPEN_CHAT_NAV"
-    }
+export const GetAllUsers=()=>async dispatch=>{
+        let data=await getAllUsers()
+        dispatch({type:"GET_ALL_USERS",payload:data})
 }
 
-export const closeChatNav=()=>{
-    return{
-        type:"CLOSE_CHAT_NAV"
-    }
-}
 export const signOut=()=>{
     localStorage.clear()
     return{type:"SIGN_OUT"}
 }
-export const onSearch=(value)=>async dispatch=>{
+export const GetUser=(value)=>async dispatch=>{
     let data=await getUser(value)
-    dispatch({type:"GET_USER_GIT",payload:data})    
-    History.push(`/search/${value}`)
+    dispatch({type:"GET_USER",payload:data})    
 }
 export const getReposits =(value)=>async dispatch=>{
     let data=await getRepos(value)
@@ -46,4 +39,14 @@ export const GetFollowers=value=>async dispatch=>{
 export const GetFollowing=value=>async dispatch=>{
     let data= await getFollowing(value)
     dispatch({type:"GET_GIT_FOLLOWING",payload:data})
+}
+export const AddPost=value=>{
+    return{
+        type:"ADD_POST",
+        payload:value
+    }
+}
+export const GetStarredRepos=value=>async dispatch=>{
+    let data=await getStarredRepos(value)
+    dispatch({type:"GET_GIT_STARRED_REPOS",payload:data})
 }

@@ -14,7 +14,7 @@ import ExperienceForm from './DashBoard/Forms/ExperinceForm';
 import EducationForm from './DashBoard/Forms/EducationForm';
 import Search from './Search/Search';
 import { connect } from 'react-redux';
-import Chat from './Chat/Chat';
+
 
 
 class Wrapper extends React.Component{
@@ -31,18 +31,14 @@ class Wrapper extends React.Component{
       <Route path="/developer/:id" component={Developer}/>
       {localStorage.token && <Route path="/posts" component={Posts}/>}
       <Route path='/post/:id'component={Post}/>
-      {/* <Route path="/dashboard" component={DashBoard}/> */}
       <Route path='/editprofile' component={EditProfile}/>
       <Route path='/experform' component={ExperienceForm}/>
       <Route path='/educaform' component={EducationForm}/>
-      <Route path='/search/:name' component={Search}/>
+      <Route path='/search/:id' component={Search}/>
 
       
       </div>
-      {this.props.chatNav && <div className="bg-dark text-white col-2 chat">
-        <h4>Chat</h4>
-        <Chat/>
-        </div>}
+      
       
     </div>
     <Footer/>
