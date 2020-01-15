@@ -66,6 +66,7 @@ module.exports={
         try {
             const users=await User.find()
             res.status(200).json({
+                total:users.length,
                 users:users
             })
         } catch (error) {
@@ -297,12 +298,14 @@ module.exports={
         }
     },
     updateUser:async(req,res,next)=>{
-        const userID=req.params.userID
-        
+        const userId=req.params.userId
+        console.log(userId)
         // const hostURL=`${req.protocol}://${req.get('host')}`
         try{
-            const user=await User.findOneAndUpdate({ _id: userID }, req.body)
+            const user=await User.findOneAndUpdate({ _id: userId }, req.body)
+            console.log(user)
             if(!user){
+                console.log("in error")
                 throw Error("User Not Found")
             }
             res.status(200).json({

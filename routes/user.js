@@ -23,7 +23,7 @@ router.get('/:username/repos/:reponame/stargazers',userController.fetchStarGazer
 
 router.get('/:username/repos/:reponame/forks',userController.fetchForks)
 
-router.put('/:userId',userController.updateUser)
+router.patch('/:userId',userController.updateUser)
 
 router.post('/login/getToken',userController.getToken)
 

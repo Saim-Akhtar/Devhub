@@ -18,6 +18,7 @@ passport.use(new GithubTokenStrategy({
             if (existingUser) {
                 return done(null, existingUser);
             }
+            // console.log("here we are after ")
             const newUser = new User({
                 _id: mongoose.Types.ObjectId(),
                 github: {
