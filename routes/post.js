@@ -2,6 +2,7 @@ const router=require('express').Router();
 const passport=require('passport')
 
 const postController=require('../controllers/post')
+router.get('/',postController.getAllPosts)
 
 router.get('/:postId',postController.getPost)
 

@@ -26,7 +26,7 @@ const postRoute=require('./routes/post')
 
 // Setting url Routes
 app.use('/user',userRoute)
-app.use('/post',postRoute)
+app.use('/posts',postRoute)
 
 // Error Handling
 app.use((req, res, next) => {

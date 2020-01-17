@@ -8,7 +8,7 @@ const github_api='https://api.github.com'
 // generating a JWT token
 generateToken = user => {
     return JWT.sign({
-            id: user._id
+            id: user._id,
         },
         process.env.JWT_KEY, {
             expiresIn: new Date().setDate(new Date().getDate() + 1) // current time + 1 day ahead
@@ -57,7 +57,8 @@ module.exports={
 
         res.status(200).json({
             token: token,
-            id: "The id is " + req.user._id
+            id: "The id is " + req.user._id,
+            username:req.user.github.userName
         });
     },
     fetchAllUsers:async(req,res,next)=>{

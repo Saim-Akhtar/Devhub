@@ -3,6 +3,18 @@ const User = require('../models/user')
 const mongoose = require('mongoose')
 
 module.exports={
+    getAllPosts:async(req,res,next)=>{
+        try {
+            const posts=await Post.find().select('_id content createdAt').populate('user_id','_id github.userName')
+            res.status(200).json({
+                total_posts:posts.length,
+                posts:posts
+            })    
+        } catch (error) {
+            res.status(404).json(error)
+        }
+        
+    },
     getPost:async(req,res,next)=>{
         try {
             const postId=req.params.postId
