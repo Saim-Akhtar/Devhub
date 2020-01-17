@@ -53,7 +53,6 @@ module.exports={
         }
     },
     login:async(req,res,next)=>{
-        // res.status(200).json({ user:req.user });
         const token = generateToken(req.user);
 
         res.status(200).json({
@@ -62,7 +61,6 @@ module.exports={
         });
     },
     fetchAllUsers:async(req,res,next)=>{
-        console.log("here we go")
         try {
             const users=await User.find()
             res.status(200).json({

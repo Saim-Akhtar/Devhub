@@ -13,12 +13,10 @@ passport.use(new GithubTokenStrategy({
     // passReqToCallback: true
 }, async(accessToken, refreshToken, profile, done)=> {
     try{    
-        
             const existingUser = await User.findOne({ "github.id": profile.id });
             if (existingUser) {
                 return done(null, existingUser);
             }
-            // console.log("here we are after ")
             const newUser = new User({
                 _id: mongoose.Types.ObjectId(),
                 github: {

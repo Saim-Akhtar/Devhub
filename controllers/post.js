@@ -71,6 +71,3 @@ module.exports={
         }
     }
 }
-User.deleteMany({email:null})
-.then(res=>{})
-.catch(err=>{})
