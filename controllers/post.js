@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 module.exports={
     getAllPosts:async(req,res,next)=>{
         try {
-            const posts=await Post.find().select('_id content createdAt').populate('user_id','_id github.userName')
+            const posts=await Post.find().select('_id content createdAt').populate('user_id','_id github.userName profilePic')
             res.status(200).json({
                 total_posts:posts.length,
                 posts:posts
@@ -18,7 +18,8 @@ module.exports={
     getPost:async(req,res,next)=>{
         try {
             const postId=req.params.postId
-            const post=await Post.findById(postId)
+            const post=await Post.findById(postId).populate('user_id','_id github.userName profilePic')
+            .populate('comments.comment_user_id','_id github.userName profilePic')
             if(!post){
                 throw Error("Post Doesn't Exist")
             } 
@@ -33,7 +34,7 @@ module.exports={
     },
     addPost:async(req,res,next)=>{
         try {
-            console.log("adding teh post")
+            console.log("adding the post")
             const newPost=new Post({
                 _id: mongoose.Types.ObjectId(),
                 user_id:req.body.user_id,
