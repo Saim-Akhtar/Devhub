@@ -27,6 +27,7 @@ class DeveloperList extends React.Component{
                       <p>{developer.github.userName}</p>
                       <p>{developer.location}</p>
                       <Link to={'/developer/'+developer.github.userName} className="btn btn-info"  style={{marginRight:10}}>View Profile</Link>
+                      <Link to={`/chat/${this.props.id}${developer._id}`} className="btn btn-info"  style={{marginRight:10}}>Send Message</Link>
                       
       
                     </div>
@@ -56,7 +57,8 @@ class DeveloperList extends React.Component{
 }
 let mapStateToProps=state=>{
   return{
-    Developers:state.Developers
+    Developers:state.Developers,
+    id:state.Auth.id
   }
 }
 export default connect(mapStateToProps,{GetAllUsers,GetUser})(DeveloperList)

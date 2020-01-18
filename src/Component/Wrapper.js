@@ -11,9 +11,9 @@ import Post from './Posts/Post';
 import DashBoard from './DashBoard/DashBoard';
 import EditProfile from './DashBoard/Forms/EditProfile';
 import ExperienceForm from './DashBoard/Forms/ExperinceForm';
-import EducationForm from './DashBoard/Forms/EducationForm';
 import Search from './Search/Search';
 import { connect } from 'react-redux';
+import Chat from './Chat/Chat';
 
 
 
@@ -33,8 +33,8 @@ class Wrapper extends React.Component{
       <Route path='/post/:id'component={Post}/>
       <Route path='/editprofile' component={EditProfile}/>
       <Route path='/experform' component={ExperienceForm}/>
-      <Route path='/educaform' component={EducationForm}/>
       <Route path='/search/:id' component={Search}/>
+      <Route path='/chat/:id' component={Chat}/>
 
       
       </div>

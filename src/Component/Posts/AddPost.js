@@ -3,7 +3,7 @@ class AddPost extends React.Component{
     state={mess:''}
     onSubmit=e=>{
         e.preventDefault()
-        console.log(this.state.mess)
+        this.props.onAdd(this.state.mess)
         this.setState({mess:''})
     }
     render(){

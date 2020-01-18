@@ -1,38 +1,38 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class PostsList extends React.Component{
     render(){
+      if(!this.props.posts)
+        return<div>loading</div>
+      // console.log(this.props.posts)
         return<>
-            <div className="jumbotron">
-            <div className="card card-body bg-light mb-3">
-            <div className="row">
-              <div className="col-2">
-                <img className="rounded-circle" src="https://avatars2.githubusercontent.com/u/40006578?s=460&v=4" alt="" />
+            {
+              this.props.posts.map(post=>{
+                return<div className="jumbotron" key={post._id}>
+                <div className="card card-body bg-light mb-3">
+                <div className="row">
+                  <div className="col-2">
+                    <img className="rounded-circle" src={post.user_id.profilePic} alt="" />
+                  </div>
+                  <div className="col-lg-6 col-md-4 col-8">
+              <h3>{post.user_id.github.userName}</h3>
+              <p>{ post.content}</p>
+                    <Link to={`post/${post._id}`} className="btn btn-info">Reply</Link>
+                  </div>
+                </div>
               </div>
-              <div className="col-lg-6 col-md-4 col-8">
-                <h3>Mohammad</h3>
-                <p>is pic mai ap ho?</p>
-                <Link to='post/1' className="btn btn-info">Reply</Link>
-              </div>
+              
             </div>
-          </div>
-          <div className="card card-body bg-light mb-3">
-            <div className="row">
-              <div className="col-2">
-                <img className="rounded-circle" src="https://avatars2.githubusercontent.com/u/40006578?s=460&v=4" alt="" />
-              </div>
-              <div className="col-lg-6 col-md-4 col-8">
-                <h3>Mohammad</h3>
-                <p>is pic mai ap ho?</p>
-                <Link to='post/1' className="btn btn-info">Reply</Link>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        
+              })
+    }
         </>
     }
 }
-export default PostsList
+let mapStateToProps=state=>{
+  return{
+    posts:state.Post.posts
+  }
+}
+export default connect(mapStateToProps)(PostsList)
