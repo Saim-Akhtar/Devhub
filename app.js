@@ -1,3 +1,4 @@
+const http=require('http')
 const express=require('express');
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
@@ -6,6 +7,13 @@ const dotenv=require('dotenv');
 
 dotenv.config()
 const app=express();
+const server=http.createServer(app)
+// Connecting Socket.io to server
+const io=require('socket.io')(server)
+
+const socketIO=require('./sockets/socket-server')
+io.on('connection',socketIO)
+
 // Parsing Body
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -45,4 +53,4 @@ app.use((error, req, res, next) => {
 
 const port=process.env.PORT || 8000
 
-app.listen(port)
+server.listen(port)

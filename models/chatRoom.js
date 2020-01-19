@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 
 const chat_users_schema=mongoose.Schema({
-    user:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    chat_user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 },{_id:false})
 
 const messagesSchema=mongoose.Schema({
@@ -12,12 +12,16 @@ const messagesSchema=mongoose.Schema({
 })
 
 const chatRoomSchema=mongoose.Schema({
-    _id:mongoose.Schema.Types.ObjectId,
+    roomId:{type: mongoose.Schema.Types.ObjectId,unique: true ,required: true},
     chat_users:[chat_users_schema],
-    roomId:{type: String, required: true},
+    chat_type:{
+        type: String,
+        enum: ['single','private','group'],
+        required: true
+    },
     startedAt:{type: String,default: Date(Date.now()) },
     lastUpdated: {type: String,default: Date(Date.now()) },
     messages:[messagesSchema]
-})
+},{_id:false})
 
 module.exports=mongoose.model('ChatRooms',chatRoomSchema)
