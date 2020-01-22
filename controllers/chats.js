@@ -6,7 +6,7 @@ module.exports={
         // Fetch all the chats of user using user.id
         const user_id=req.user._id
         try {
-            const userRooms=await Chats.find({"chat_users.user": user_id})
+            const userRooms=await Chats.find({"chat_users.chat_user_id": user_id})
                             .select('roomId chat_users lastUpdated')
             res.status(200).json({
                 total_rooms:userRooms.length,

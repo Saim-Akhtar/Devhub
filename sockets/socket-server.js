@@ -1,5 +1,6 @@
 const ChatRooms=require('../models/chatRoom')
 const User=require('../models/user')
+const mongoose=require('mongoose')
 
 let socket;
 const join_userRooms=async(data)=>{
@@ -45,15 +46,28 @@ const get_chatRoom=async(data)=>{
         socket.emit('chatRoom_response',{error})
     }
 }
+const roomExists=async(rooms,senderId,receiverId)=>{
+    for(let roomIter of rooms){
+        const user_ids=roomIter.chat_users.map(user=>user.chat_user_id.toString())
+        if(user_ids.includes(senderId) && user_ids.includes(receiverId)){
+            return roomIter.roomId
+        }
+    }
+    console.log("room doesnt exist")
+    return null
+}
 
 const send_message=async(data)=>{
     const roomId=data.roomId
     const message=data.message
     const senderId=data.senderId
+    console.log("sending message")
     // Sending message to a room
     socket.broadcast.to(roomId).emit('messageOut',{roomId,message})
     try {
+        // console.log(roomId)
         const room=await ChatRooms.findOne({"roomId":roomId})
+        // console.log(room)
         room.lastUpdated=Date(Date.now())
         await room.messages.push({
             _id:mongoose.Types.ObjectId(),
@@ -62,18 +76,9 @@ const send_message=async(data)=>{
         })
         await room.save()
     } catch (error) {
+        console.log("error in sending message")
         console.log(error)
     }
-}
-
-const roomExists=async(rooms,senderId,receiverId)=>{
-    for(let roomIter of rooms){
-        const user_ids=roomIter.chat_users.map(user=>user.chat_user_id.toString())
-        if(user_ids.includes(senderId) && user_ids.includes(receiverId)){
-            return rooms.roomId
-        }
-    }
-    return null
 }
 
 const start_chat=async(data)=>{
@@ -84,38 +89,46 @@ const start_chat=async(data)=>{
     let rooms;
     try {
         if(chatType === 'single'){
+            console.log("single chat")
             rooms=await ChatRooms.find({'chat_type':'single'}).select('roomId chat_users')    
         }
         else{
+            console.log("private chat")
             rooms=await ChatRooms.find({'chat_type':'private'}).select('roomId chat_users')
         }
         
-        roomId=roomExists(rooms,senderId,receiverId)
-        if(room !== null){
+        roomId=await roomExists(rooms,senderId,receiverId)
+        console.log(roomId)
+        if(roomId !== null){
+            console.log('room exist')
             send_message({roomId,message,senderId})
         }
         else{
+            console.log('starting chat')
             const newChat=new ChatRooms({
                 roomId:mongoose.Types.ObjectId(),
                 chat_users: [{chat_user_id: senderId},{chat_user_id:receiverId}],
                 chat_type: chatType,
-                messages:[{
-                    _id:mongoose.Types.ObjectId(),
-                    sender:senderId,
-                    text:message
-                }]
+                // messages:[{
+                //     _id:mongoose.Types.ObjectId(),
+                //     sender:senderId,
+                //     text:message
+                // }]
             })
-            await newChat.save()
+            console.log("now saving")
+            const room= await newChat.save()
+            send_message({roomId:room.roomId,message:message,senderId:senderId})
         }
 
     } catch (error) {
+        console.log("error in starting chat")
         console.log(error)
     }
 }
 
 const socketIO=async (serverSocket)=>{
     socket=serverSocket
-    console.log(socket)
+    // console.log(socket)
     // an emit message from client will be generated to join user rooms from database
     socket.on('join_userRooms',join_userRooms)
     // Get All the rooms of user socket

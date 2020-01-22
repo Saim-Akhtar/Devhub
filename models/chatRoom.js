@@ -2,7 +2,7 @@ const mongoose=require('mongoose')
 
 const chat_users_schema=mongoose.Schema({
     chat_user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
-},{_id:false})
+})
 
 const messagesSchema=mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
@@ -22,6 +22,6 @@ const chatRoomSchema=mongoose.Schema({
     startedAt:{type: String,default: Date(Date.now()) },
     lastUpdated: {type: String,default: Date(Date.now()) },
     messages:[messagesSchema]
-},{_id:false})
+})
 
 module.exports=mongoose.model('ChatRooms',chatRoomSchema)
