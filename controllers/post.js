@@ -34,17 +34,22 @@ module.exports={
     },
     addPost:async(req,res,next)=>{
         try {
+            let repo={}
+            if(req.body.repo_attached === true){
+                console.log('yes repo')
+                repo={
+                    _id:mongoose.Types.ObjectId(),
+                    repo_user_id:req.body.repo_user_id,
+                    repo_title:req.body.repo_title
+                }
+            }
             console.log("adding the post")
             const newPost=new Post({
                 _id: mongoose.Types.ObjectId(),
                 user_id:req.body.user_id,
                 content:req.body.content,
-                repo_attached:req.body.repo_attached, 
-                repo:{
-                    _id:mongoose.Types.ObjectId(),
-                    repo_user_id:req.body.repo_user_id,
-                    repo_title:req.body.repo_title
-                }
+                repo_attached:req.body.repo_attached,
+                repo:repo   
             })
             const data=await newPost.save();
             res.status(200).json({

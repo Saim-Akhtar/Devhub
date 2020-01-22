@@ -9,7 +9,7 @@ const commentSchema=mongoose.Schema({
 
 const repoSchema=mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
-    repo_user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    repo_user_id:{ type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     repo_title:String
 })
 
