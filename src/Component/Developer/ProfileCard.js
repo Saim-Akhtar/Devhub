@@ -32,7 +32,7 @@ class ProfileCard extends React.Component{
                 </a>
                 
               </p>
-              <ModalExample  buttonLabel={'Send Message'}/>
+              <ModalExample  buttonLabel={'Send Message'} id={this.props.id}/>
             </div>
           </div>
         </div>

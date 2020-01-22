@@ -5,13 +5,14 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 const ModalExample = (props) => {
   const {
     buttonLabel,
-    className
+    className,id
   } = props;
   let onSubmit=evt=>{
       evt.preventDefault()
       console.log(mess)
         setModal(!modal);
   }
+  console.log(id)
   const [modal, setModal] = useState(false);
   const [mess,setmess]=useState("");
   const toggle = () => setModal(!modal);

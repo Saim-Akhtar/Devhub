@@ -31,7 +31,7 @@ class Developer extends React.Component{
                   <Link to='/developers' className="btn btn-light mb-3 float-left">Back To Profiles</Link>
                 </div>
               </div>
-              <ProfileCard profilePic={this.props.user.profilePic} facebook={this.props.user.facbeookURL} twitter={this.props.user.twitterURL} linkedin={this.props.user.linkedinURL} location={this.props.user.location}  name={`${this.props.user.github.firstName} ${this.props.user.github.lastName}`}/>
+              <ProfileCard profilePic={this.props.user.profilePic} facebook={this.props.user.facbeookURL} twitter={this.props.user.twitterURL} linkedin={this.props.user.linkedinURL} id={this.props.user._id} location={this.props.user.location}  name={`${this.props.user.github.firstName} ${this.props.user.github.lastName}`}/>
               {this.props.user.skillSet.length>=1 && <SkillCard skills={this.props.user.skillSet}/>}
               <nav className="nav nav-pills nav-justified">
               <Link className="nav-item nav-link active" to={`/developer/${id}/experience`} >Experience</Link>

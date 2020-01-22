@@ -29,7 +29,7 @@ class DeveloperList extends React.Component{
                       <p>{developer.location}</p>
                       <Link to={'/developer/'+developer.github.userName} className="btn btn-info"  style={{marginRight:10}}>View Profile</Link>
                       {/* <Link to={`/chat`} className="btn btn-info"  style={{marginRight:10}}>Send Message</Link> */}
-                      <ModalExample buttonLabel={'Send Message'} />
+                      <ModalExample buttonLabel={'Send Message'} id={developer._id} />
       
                     </div>
                     {/* {!developer.skillSet && <div> no skills registered</div>} */}
