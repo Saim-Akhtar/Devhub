@@ -8,6 +8,7 @@ module.exports={
         try {
             const userRooms=await Chats.find({"chat_users.chat_user_id": user_id})
                             .select('roomId chat_users lastUpdated')
+                            .populate('chat_users.chat_user_id','_id github.userName profilePic')
             res.status(200).json({
                 total_rooms:userRooms.length,
                 rooms:userRooms
