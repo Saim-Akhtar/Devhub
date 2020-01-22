@@ -25,6 +25,10 @@ router.get('/:username/repos/:reponame/forks',userController.fetchForks)
 
 router.patch('/:userId',userController.updateUser)
 
+router.patch('/:userId/experience',userController.addExperience)
+
+router.patch('/:userId/experience/:experienceId',userController.deleteExperience)
+
 router.post('/login/getToken',userController.getToken)
 
 router.post('/login/github',passport.authenticate('github-token', { session: false }),userController.login)

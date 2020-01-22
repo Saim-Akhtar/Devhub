@@ -85,6 +85,7 @@ module.exports={
             if(userRes){
                 const user={}
                 user.github_url=data.html_url
+                user.bio=data.bio
                 user.followers=data.followers
                 user.followers_url=`${hostURL}/user/${username}/followers`
                 user.following=data.following
@@ -298,7 +299,7 @@ module.exports={
     },
     updateUser:async(req,res,next)=>{
         const userId=req.params.userId
-        console.log(userId)
+        // console.log(userId)
         // const hostURL=`${req.protocol}://${req.get('host')}`
         try{
             const user=await User.findOneAndUpdate({ _id: userId }, req.body)
@@ -309,6 +310,49 @@ module.exports={
             }
             res.status(200).json({
                 message: "User Profile Updated Successfully"
+            })
+        }
+        catch(err){
+            res.status(404).json({error:err})
+        }
+    },
+    addExperience:async(req,res,next)=>{
+        const userId=req.params.userId
+        
+        // const hostURL=`${req.protocol}://${req.get('host')}`
+        try{
+            const user=await User.findById(userId)
+            // console.log(user)
+            const {job_title,location,company,startedAt,endedAt,currentlyWorking}= req.body
+            if(!user){
+                console.log("in error")
+                throw Error("User Not Found")
+            }
+            user.experience.push({job_title,location,company,startedAt,endedAt,currentlyWorking})
+            await user.save()
+            res.status(200).json({
+                message: "User Experience Added Successfully"
+            })
+        }
+        catch(err){
+            res.status(404).json({error:err})
+        }
+    },
+    deleteExperience:async(req,res,next)=>{
+        const userId=req.params.userId
+        const experienceId=req.params.experienceId
+        // const hostURL=`${req.protocol}://${req.get('host')}`
+        try{
+            const user=await User.findById(userId)
+            // console.log(user)
+            if(!user){
+                console.log("in error")
+                throw Error("User Not Found")
+            }
+            user.experience.id(experienceId).remove()
+            await user.save()
+            res.status(200).json({
+                message: "User Experience Removed Successfully"
             })
         }
         catch(err){

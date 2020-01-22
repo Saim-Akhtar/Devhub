@@ -19,7 +19,7 @@ const userSchema=mongoose.Schema({
     experience:{type:[
         {
             job_title:String,
-            role:String,
+            location:String,
             company: String,
             startedAt:Date,
             endedAt: Date,

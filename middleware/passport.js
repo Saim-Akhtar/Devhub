@@ -40,13 +40,13 @@ passport.use(new GithubTokenStrategy({
 
 
 passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token'),
+    jwtFromRequest: ExtractJWT.fromUrlQueryParameter('token'),
     secretOrKey: process.env.JWT_KEY
 },
 async(jwtPayload, done) => {
 
     try {
-        const user = await User.findById(jwtPayload.sub);
+        const user = await User.findById(jwtPayload.id);
 
         // If user doesn't exists, handle it
         if (!user) {
