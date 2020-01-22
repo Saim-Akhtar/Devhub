@@ -3,12 +3,12 @@ import {Link, Route } from 'react-router-dom'
 import ProfileCard from './ProfileCard'
 import SkillCard from './SkillCard'
 import ExperienceCard from './ExperienceCard'
-import EducationCard from './EducationCard'
 import GitRepoCard from './GitRepoCard'
 import { connect } from 'react-redux'
 import {GetUser} from '../../Action'
 import Follower from './Follower'
 import Following from './Following'
+import StarredRepo from './StarredRepo'
 
 class Developer extends React.Component{
     componentDidMount(){
@@ -31,21 +31,22 @@ class Developer extends React.Component{
                   <Link to='/developers' className="btn btn-light mb-3 float-left">Back To Profiles</Link>
                 </div>
               </div>
-              <ProfileCard profilePic={this.props.user.profilePic} location={this.props.user.location} name={`${this.props.user.github.firstName}${this.props.user.github.lastName}`}/>
-              <SkillCard/>
+              <ProfileCard profilePic={this.props.user.profilePic} facebook={this.props.user.facbeookURL} twitter={this.props.user.twitterURL} linkedin={this.props.user.linkedinURL} location={this.props.user.location}  name={`${this.props.user.github.firstName} ${this.props.user.github.lastName}`}/>
+              {this.props.user.skillSet.length>=1 && <SkillCard skills={this.props.user.skillSet}/>}
               <nav className="nav nav-pills nav-justified">
-             <Link className="nav-item nav-link active" to={`/developer/${id}/education`} >Education</Link>
               <Link className="nav-item nav-link active" to={`/developer/${id}/experience`} >Experience</Link>
                <Link className="nav-item nav-link active" to={`/developer/${id}/gitrepo`}>Git Repo</Link>
              <Link className="nav-item nav-link active" to={`/developer/${id}/followers`} >Followers</Link>
              <Link className="nav-item nav-link active" to={`/developer/${id}/following`} >Following</Link>
-
+             <Link className="nav-item nav-link active" to={`/developer/${id}/starred`} >Starred_repos</Link>
               </nav>
-                <Route path='/developer/:id/education' exact component={EducationCard}/>
+              
                 <Route path='/developer/:id/experience' exact component={ExperienceCard}/>
                 <Route path='/developer/:id/gitrepo' exact component={GitRepoCard}/>
                 <Route path='/developer/:id/followers' exact component={Follower}/>
                 <Route path='/developer/:id/following' exact component={Following}/>
+                <Route path='/developer/:id/starred' exact component={StarredRepo}/>
+
 
                  {this.props.location.pathname.split('/').length===4 &&<Link to={`/developer/${id}`}>ShowLess</Link>}
             </div>

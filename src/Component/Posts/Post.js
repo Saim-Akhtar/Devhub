@@ -15,7 +15,9 @@ class Post extends React.Component{
     }
     render(){
       if(!this.props.post)
-        return<div>loading</div>
+        return<div className='text-center'><div className="spinner-border text-primary" role="status">
+        <span className="sr-only">Loading...</span>
+        </div></div>
         return<div className='container'>
             <Link  className='btn btn-info' to='/posts'>Back to Posts</Link>
             <hr/>

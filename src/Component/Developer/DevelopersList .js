@@ -27,23 +27,20 @@ class DeveloperList extends React.Component{
                       <p>{developer.github.userName}</p>
                       <p>{developer.location}</p>
                       <Link to={'/developer/'+developer.github.userName} className="btn btn-info"  style={{marginRight:10}}>View Profile</Link>
-                      <Link to={`/chat/${this.props.id}${developer._id}`} className="btn btn-info"  style={{marginRight:10}}>Send Message</Link>
+                      <Link to={`/chat`} className="btn btn-info"  style={{marginRight:10}}>Send Message</Link>
                       
       
                     </div>
+                    {/* {!developer.skillSet && <div> no skills registered</div>} */}
                     <div className="col-md-4 d-none d-lg-block">
-                      <h4>Skill Set</h4>
+                      <h4>{developer.skillSet.length>1?'Skills Set':'No Skills Registered'}</h4>
                       <ul className="list-group">
-                        <li className="list-group-item">
-                          <i className="fa fa-check pr-1"></i>HTML</li>
-                        <li className="list-group-item">
-                          <i className="fa fa-check pr-1"></i>CSS</li>
-                        <li className="list-group-item">
-                          <i className="fa fa-check pr-1"></i>JavaScript</li>
-                        <li className="list-group-item">
-                          <i className="fa fa-check pr-1"></i>Python</li>
-                        <li className="list-group-item">
-                          <i className="fa fa-check pr-1"></i>C#</li>
+                        {developer.skillSet.map(skill=>{
+                          return<li className="list-group-item">
+                        <i className="fa fa-check pr-1"></i>{skill}</li>
+                        })}
+                        
+                        
                       </ul>
                     </div>
                   </div>

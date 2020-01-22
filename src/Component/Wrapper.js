@@ -34,7 +34,7 @@ class Wrapper extends React.Component{
       <Route path='/editprofile' component={EditProfile}/>
       <Route path='/experform' component={ExperienceForm}/>
       <Route path='/search/:id' component={Search}/>
-      <Route path='/chat/:id' component={Chat}/>
+      <Route path='/chat' component={Chat}/>
 
       
       </div>

@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 class PostsList extends React.Component{
     render(){
       if(!this.props.posts)
-        return<div>loading</div>
+        return<div className='text-center'><div className="spinner-border text-primary" role="status">
+        <span className="sr-only">Loading...</span>
+        </div></div>
       // console.log(this.props.posts)
         return<>
             {

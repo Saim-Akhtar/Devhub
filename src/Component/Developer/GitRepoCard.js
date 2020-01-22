@@ -18,23 +18,18 @@ class GitRepoCard extends React.Component{
        
               {this.props.repos.map(repo=><div  className="card card-body mb-2 bg-dark" key={repo.repo_name}>
               <div className='row'>
-                <div className="col-md-6" >
+                <div className="col-md-10" >
               <h4>
                 <a  className="text-info" href={repo.github_url}>
                   {repo.repo_name}
                 </a>
               </h4>
             </div>
-            <div className="col-md-6">
+            <div className="col-md">
               <span className="badge badge-success mr-1">
                 Stars:{repo.stars}
               </span>
-              <span className="badge badge-secondary mr-1">
-                Watchers: 21
-              </span>
-              <span className="badge badge-success">
-                Forks: 1
-              </span>
+              
             </div></div></div>
                 
                 )}

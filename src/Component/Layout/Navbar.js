@@ -20,7 +20,7 @@ class  Navbar extends React.Component{
         }
         render(){
         // console.log(props.isLoggedin)
-        return <div className="row"><nav className="navbar navbar-expand-lg  navbar-dark bg-dark mb-4 col-sm-12">
+        return <div className="row"><nav className="navbar navbar-expand-lg  navbar-dark bg-dark mb-4 col-sm-12"> 
         <div className="container">
           <Link className="navbar-brand" to='/'>DevHub</Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
@@ -50,9 +50,9 @@ class  Navbar extends React.Component{
                 <li className="nav-item">
                   <Link className="nav-link" to="/posts">Posts</Link>
               </li>
-              {/* <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard">DashBoard <i className='fa fa-user pr-1'></i></Link>
-              </li> */}
+              <li className="nav-item">
+                  <Link className="nav-link" to="/chat">Chats <i className='fa fa pr-1'></i></Link>
+              </li>
               <li className="nav-item">
                   <Link className="nav-link" onClick={this.props.signOut} to='/'>Logout <i className="fa fa-sign-out-alt pr-1"></i></Link>
               </li>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 class ProfileCard extends React.Component{
     render(){
@@ -20,21 +19,17 @@ class ProfileCard extends React.Component{
               <p className="lead text-center">Developer at Babusoft</p>
     <p>{this.props.location}</p>
               <p>
-                <Link className="text-white p-2" to=''>
-                  <i className="fas fa-globe fa-2x"></i>
-                </Link>
-                <Link className="text-white p-2" to=''>
+                
+                <a className="text-white p-2" href={this.props.facebook} target='_blank' rel='noopener noreferrer'>
                   <i className="fab fa-twitter fa-2x"></i>
-                </Link>
-                <Link className="text-white p-2" to=''>
+                </a>
+                <a className="text-white p-2" href={this.props.twitter} target='_blank' rel='noopener noreferrer'>
                   <i className="fab fa-facebook fa-2x"></i>
-                </Link>
-                <Link className="text-white p-2" to=''>
+                </a>
+                <a className="text-white p-2" href={this.props.linkedin} target='_blank' rel='noopener noreferrer'>
                   <i className="fab fa-linkedin fa-2x"></i>
-                </Link>
-                <Link className="text-white p-2" to=''>
-                  <i className="fab fa-instagram fa-2x"></i>
-                </Link>
+                </a>
+                
               </p>
             </div>
           </div>

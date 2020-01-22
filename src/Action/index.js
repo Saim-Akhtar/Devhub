@@ -21,7 +21,8 @@ export const GetAllUsers=()=>async dispatch=>{
 }
 export const UpdateUser=(value,userId)=>async dispatch=>{
     let data=await updateUser(value,userId)
-    dispatch({type:"GET_USER",payload:data})    
+    console.log(data)
+    History.push('/')    
 }
 export const signOut=()=>{
     localStorage.clear()
@@ -62,4 +63,5 @@ export const GetPost=(postId)=>async dispatch=>{
 export const AddComment=(postId,comment)=>async dispatch=>{
     let data =await addComment(postId,comment)
     dispatch({type:"ADD_COMMENT",payload:data})
+    History.push(`/post/${postId}`)
 }

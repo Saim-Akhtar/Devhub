@@ -81,7 +81,17 @@ export const getPosts=async ()=>{
 export const addPost=async (post)=>{
     try{
         console.log(post)
-        let result=await fetch(`${api}/posts/add`,{method:"POST",header,body:post})
+        let Local=JSON.parse(localStorage.token)
+        let value={
+            user_id:Local.id,
+            content:post,
+            repo_attached:false,
+            repo:{
+                repo_user_id:'',
+                repo_title:''
+            }
+        }
+        let result=await fetch(`${api}/posts/add`,{method:"POST",headers:header,body:JSON.stringify(value)})
         let data=await result.json()
         return data
     }
@@ -98,8 +108,13 @@ export const getPost=async (postId)=>{
 }
 export const addComment=async (postId,comment)=>{
     try{
-
-        let result=await fetch(`${api}/posts/${postId}/comment`,{method:"PUT",header,body:comment})
+        let Local=JSON.parse(localStorage.token)
+        let value={
+            comment_user_id:Local.id,
+            comment_text:comment
+        }
+        
+        let result=await fetch(`${api}/posts/${postId}/comment`,{method:"PUT",headers:header,body:JSON.stringify(value)})
         let data=await result.json()
         console.log(data)
     }
