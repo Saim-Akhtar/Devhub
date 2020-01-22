@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import socketIOClient from 'socket.io-client';
+
+const endpoint="http://localhost:8000"
+let socket=socketIOClient(endpoint)
 
 
 const ModalExample = (props) => {
@@ -10,9 +14,10 @@ const ModalExample = (props) => {
   let onSubmit=evt=>{
       evt.preventDefault()
       console.log(mess)
+      const senderId=JSON.parse(localStorage.token).id
+      socket.emit('start_chat',{message:mess,senderId:senderId,receiverId:id})
         setModal(!modal);
   }
-  console.log(id)
   const [modal, setModal] = useState(false);
   const [mess,setmess]=useState("");
   const toggle = () => setModal(!modal);
