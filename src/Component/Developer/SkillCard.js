@@ -11,7 +11,7 @@ class SkillCard extends React.Component{
               <div className="d-flex flex-wrap justify-content-center align-items-center">
                 {
                   this.props.skills.map(skill=>{
-                      return<div className="p-3">
+                      return <div className="p-3">
                   <i className="fa fa-check"></i> {skill}</div>
                   })
                 }

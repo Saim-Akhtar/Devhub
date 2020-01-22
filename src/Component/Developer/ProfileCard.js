@@ -1,4 +1,5 @@
 import React from 'react'
+import ModalExample from '../Modal'
 
 class ProfileCard extends React.Component{
     render(){
@@ -31,6 +32,7 @@ class ProfileCard extends React.Component{
                 </a>
                 
               </p>
+              <ModalExample  buttonLabel={'Send Message'}/>
             </div>
           </div>
         </div>

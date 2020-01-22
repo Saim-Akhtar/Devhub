@@ -86,10 +86,7 @@ export const addPost=async (post)=>{
             user_id:Local.id,
             content:post,
             repo_attached:false,
-            repo:{
-                repo_user_id:'',
-                repo_title:''
-            }
+            
         }
         let result=await fetch(`${api}/posts/add`,{method:"POST",headers:header,body:JSON.stringify(value)})
         let data=await result.json()

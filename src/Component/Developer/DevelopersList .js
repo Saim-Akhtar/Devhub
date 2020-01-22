@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import {GetAllUsers,GetUser} from '../../Action'
 import { connect } from 'react-redux'
+import ModalExample from '../Modal'
 
 
 
@@ -17,7 +18,7 @@ class DeveloperList extends React.Component{
         return <div className="jumbotron">
           {this.props.Developers.users.map(developer=>{ 
                 if(developer.github){
-                  return<div className="card card-body bg-light mb-3">
+                  return<div className="card card-body bg-light mb-3" key={developer._id}>
                   <div className="row">
                     <div className="col-2">
                       <img className="rounded-circle" src={developer.profilePic} alt="" />
@@ -27,8 +28,8 @@ class DeveloperList extends React.Component{
                       <p>{developer.github.userName}</p>
                       <p>{developer.location}</p>
                       <Link to={'/developer/'+developer.github.userName} className="btn btn-info"  style={{marginRight:10}}>View Profile</Link>
-                      <Link to={`/chat`} className="btn btn-info"  style={{marginRight:10}}>Send Message</Link>
-                      
+                      {/* <Link to={`/chat`} className="btn btn-info"  style={{marginRight:10}}>Send Message</Link> */}
+                      <ModalExample buttonLabel={'Send Message'} />
       
                     </div>
                     {/* {!developer.skillSet && <div> no skills registered</div>} */}
@@ -36,7 +37,7 @@ class DeveloperList extends React.Component{
                       <h4>{developer.skillSet.length>1?'Skills Set':'No Skills Registered'}</h4>
                       <ul className="list-group">
                         {developer.skillSet.map(skill=>{
-                          return<li className="list-group-item">
+                          return<li className="list-group-item" key={skill}>
                         <i className="fa fa-check pr-1"></i>{skill}</li>
                         })}
                         
