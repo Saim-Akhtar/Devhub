@@ -24,6 +24,7 @@ module.exports={
     const roomId=req.params.roomId
     try {
         const chat=await Chats.findOne({"roomId": roomId})
+                        .populate('chat_users.chat_user_id','_id github.userName profilePic')
         // Sending A Requested Chat Room to client
         res.status(200).json({
             chat:chat
