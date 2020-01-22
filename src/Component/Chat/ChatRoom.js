@@ -7,15 +7,29 @@ class ChatRoom extends React.Component{
   async componentWillReceiveProps(){
     let data=await getChat(this.props.match.params.id)
     this.setState({data})
-    console.log(this.state)
+    // console.log(this.state)
+  }
+  async componentDidMount(){
+    let data=await getChat(this.props.match.params.id)
+    this.setState({data})
+    // console.log(this.state)
   }
   state={mess:'',data:{}}
   onSubmit=e=>{
     e.preventDefault()
     console.log(this.state.mess)
   }
-
+    messageCheck=(message)=>{
+      let a=JSON.parse(localStorage.token)
+      if(a.id===message.sender){
+        return <Outgoing text={message.text}/>
+      }
+      else{
+        return <Incoming text={message.text}/>
+      }
+    }
     render(){
+      
       if(!this.state.data.chat)
       return<div>loading</div>
         return<div className='mesgs'>
@@ -23,7 +37,11 @@ class ChatRoom extends React.Component{
               {
                 this.state.data.chat.messages.map(message=>{
                   console.log(message)
-                    return<Incoming/>
+                    return<div>
+                      {
+                        this.messageCheck(message)
+                      }
+                    </div>
                     
                 })
               }
