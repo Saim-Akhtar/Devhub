@@ -1,29 +1,34 @@
 import React from 'react'
 import Incoming from './Incoming'
 import Outgoing from './Outgoing'
+import {getChat} from '../../Api/ChatApi'
+import { connect } from 'react-redux'
 class ChatRoom extends React.Component{
-  componentDidUpdate(){
-    console.log(this.props.match.params.id)
+  async componentWillReceiveProps(){
+    let data=await getChat(this.props.match.params.id)
+    this.setState({data})
+    console.log(this.state)
   }
-  state={mess:''}
+  state={mess:'',data:{}}
   onSubmit=e=>{
     e.preventDefault()
     console.log(this.state.mess)
   }
 
     render(){
+      if(!this.state.data.chat)
+      return<div>loading</div>
         return<div className='mesgs'>
             <div className="msg_history">
-            <div className="outgoing_msg">
-        <div className="sent_msg">
-          <p>My chat id is {this.props.match.params.id} </p>
-          <span className="time_date"> 11:01 AM    |    Today</span> </div>
-      </div>
-            <Incoming/>
-            <Outgoing/>
-            <Incoming/>
-            <Outgoing/>
-            <Incoming/>
+              {
+                this.state.data.chat.messages.map(message=>{
+                  console.log(message)
+                    return<Incoming/>
+                    
+                })
+              }
+            
+            
           </div>
           <div className="type_msg">
             <div className="input_msg_write">
@@ -38,4 +43,4 @@ class ChatRoom extends React.Component{
         </div>
     }
 }
-export default ChatRoom
+export default connect(null)(ChatRoom)

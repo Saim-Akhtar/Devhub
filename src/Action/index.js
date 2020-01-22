@@ -1,6 +1,7 @@
 import { onSuccess } from "../Api/AuthApi"
 import {getRepos,getFollowers,getFollowing,getStarredRepos, getAllUsers,getUser, updateUser, addPost, getPosts, getPost, addComment } from "../Api/Api"
 import History from '../History'
+import { getChats,getChat } from "../Api/ChatApi"
 
 export const signIn=(response)=>async dispatch=>{
    
@@ -64,4 +65,12 @@ export const AddComment=(postId,comment)=>async dispatch=>{
     let data =await addComment(postId,comment)
     dispatch({type:"ADD_COMMENT",payload:data})
     History.push(`/post/${postId}`)
+}
+export const GetChats=()=>async dispatch=>{
+    let data=await getChats()
+    dispatch({type:"GET_CHATS",payload:data})
+}
+export const GetChat=(roomId)=>async dispatch=>{
+    let data=await getChat(roomId)
+    dispatch({type:"GET_CHAT",payload:data})
 }
