@@ -17,6 +17,7 @@ class DeveloperList extends React.Component{
         </div></div>
         return <div className="jumbotron">
           {this.props.Developers.users.map(developer=>{ 
+                // console.log(developer)
                 if(developer.github){
                   return<div className="card card-body bg-light mb-3" key={developer._id}>
                   <div className="row">

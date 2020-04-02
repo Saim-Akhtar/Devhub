@@ -46,7 +46,8 @@ export const GetFollowing=value=>async dispatch=>{
     dispatch({type:"GET_GIT_FOLLOWING",payload:data})
 }
 export const AddPosT=post=>async dispatch=>{
-    let data =await addPost(post)
+    await addPost(post)
+    let data=await getPosts()
     dispatch({type:"ADD_POST",payload:data})
 }
 export const GetStarredRepos=value=>async dispatch=>{
@@ -59,11 +60,14 @@ export const  GetPosts=()=>async dispatch=>{
 }
 export const GetPost=(postId)=>async dispatch=>{
     let data= await getPost(postId)
+    console.log(data)
     dispatch({type:"GET_POST",payload:data})
 }
 export const AddComment=(postId,comment)=>async dispatch=>{
-    let data =await addComment(postId,comment)
-    dispatch({type:"ADD_COMMENT",payload:data})
+    await addComment(postId,comment)
+    let data=await getPost(postId)
+    console.log(data)
+    dispatch({type:"GET_POST",payload:data})
     History.push(`/post/${postId}`)
 }
 export const GetChats=()=>async dispatch=>{

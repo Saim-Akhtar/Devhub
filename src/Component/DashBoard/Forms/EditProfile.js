@@ -17,6 +17,7 @@ class EditProfile extends React.Component{
     })
     }
     
+    
     onSubmit=(e)=>{
         e.preventDefault()
         let skills=this.state.skills.split(',')

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import socketIOClient from 'socket.io-client';
+// import socketIOClient from 'socket.io-client';
+import {socketCall} from '../Chatmerge'
 
-const endpoint="http://localhost:8000"
-let socket=socketIOClient(endpoint)
+// const endpoint="http://localhost:8000"
+// let socket=socketIOClient(endpoint)
 
 
 const ModalExample = (props) => {
@@ -15,7 +16,8 @@ const ModalExample = (props) => {
       evt.preventDefault()
       console.log(mess)
       const senderId=JSON.parse(localStorage.token).id
-      socket.emit('start_chat',{message:mess,senderId:senderId,receiverId:id})
+      console.log(id)
+      socketCall(mess,senderId,id)
         setModal(!modal);
   }
   const [modal, setModal] = useState(false);

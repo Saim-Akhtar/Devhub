@@ -1,23 +1,29 @@
 import React from 'react'
 import Incoming from './Incoming'
 import Outgoing from './Outgoing'
-import {getChat} from '../../Api/ChatApi'
+import {socketCall} from '../../Chatmerge'
+import {GetChat} from '../../Action'
 import { connect } from 'react-redux'
 class ChatRoom extends React.Component{
-  async componentWillReceiveProps(){
-    let data=await getChat(this.props.match.params.id)
-    this.setState({data})
-    // console.log(this.state)
+  async componentDidUpdate(){
+    let data=this.props.GetChat(this.props.match.params.id)
+    // console.log(this.props)
   }
-  async componentDidMount(){
-    let data=await getChat(this.props.match.params.id)
-    this.setState({data})
-    // console.log(this.state)
-  }
+  // async componentDidMount(){
+  //   let data=await getChat(this.props.match.params.id)
+  //   console.log(data)
+  //   this.setState({data})
+  //   // console.log(this.state)
+  // }
   state={mess:'',data:{}}
   onSubmit=e=>{
     e.preventDefault()
-    console.log(this.state.mess)
+    const id=this.props.chat.chat_users[0].chat_user_id
+    // console.log(this.props.chat.chat_users[0].chat_user_id._id)
+    const senderId=JSON.parse(localStorage.token).id
+    // console.log(this.state.mess)
+    socketCall(this.state.mess,senderId,id)
+    this.setState({mess:''})
   }
     messageCheck=(message)=>{
       let a=JSON.parse(localStorage.token)
@@ -29,14 +35,13 @@ class ChatRoom extends React.Component{
       }
     }
     render(){
-      
-      if(!this.state.data.chat)
+      if(!this.props.chat)
       return<div>loading</div>
         return<div className='mesgs'>
             <div className="msg_history">
               {
-                this.state.data.chat.messages.map(message=>{
-                  console.log(message)
+                this.props.chat.messages.map(message=>{
+                 
                     return<div>
                       {
                         this.messageCheck(message)
@@ -54,11 +59,16 @@ class ChatRoom extends React.Component{
               <input type="text" className="write_msg" placeholder="Type a message" value={this.state.mess} onChange={e=>{this.setState({
                 mess:e.target.value
               })}}/>
-              <button className="msg_send_btn" type="button" ><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+              <button className="msg_send_btn" type="button" type='submit' ><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
               </form>
             </div>
           </div>
         </div>
     }
 }
-export default connect(null)(ChatRoom)
+let mapStateToProps=state=>{
+  return{
+    chat:state.Chats.chat
+  }
+}
+export default connect(mapStateToProps,{GetChat})(ChatRoom)

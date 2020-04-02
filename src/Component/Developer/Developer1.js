@@ -17,7 +17,7 @@ class Developer extends React.Component{
     render(){
         
         let {id}=this.props.match.params
-        
+        // console.log(this.props)
         if(!this.props.user)
         return<div className='text-center' style={{marginTop:10}}><div className="spinner-border text-primary" role="status">
         <span className="sr-only">Loading...</span>
