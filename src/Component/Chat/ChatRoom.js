@@ -5,9 +5,14 @@ import {socketCall} from '../../Chatmerge'
 import {GetChat} from '../../Action'
 import { connect } from 'react-redux'
 class ChatRoom extends React.Component{
-  async componentDidUpdate(){
-    let data=this.props.GetChat(this.props.match.params.id)
-    // console.log(this.props)
+  async componentWillReceiveProps(nextProps){
+    if(nextProps.match.params.id != this.props.match.params.id){
+      let data=this.props.GetChat(nextProps.match.params.id)
+      console.log("now getting proprs")
+      console.log(nextProps.match.params.id)
+      console.log(this.props.match.params.id)
+    }
+    
   }
   // async componentDidMount(){
   //   let data=await getChat(this.props.match.params.id)
