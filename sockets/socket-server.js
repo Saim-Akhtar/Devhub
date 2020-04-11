@@ -3,23 +3,25 @@ const User=require('../models/user')
 const mongoose=require('mongoose')
 
 let socket;
-const join_userRooms=async(data)=>{
-    const userId=data.userId
+const join_userRooms=async(socket,userId)=>{
+    // const userId=data.userId
     try {
-        const userRooms=await ChatRooms.find({"chat_users.user": userId}).select('roomId')
+        const userRooms=await ChatRooms.find({"chat_users.chat_user_id": userId}).select('roomId')
         const rooms=userRooms.map(room=> room.roomId)
         socket.join(rooms)
+        console.log("userID: ",userId," joined rooms using socketID: ",socket.id)
     } catch (error) {
         console.log(error)
     }
 }
 
-const leave_userRooms=async(data)=>{
-    const userId=data.userId
+const leave_userRooms=async(socket,userId)=>{
+    // const userId=data.userId
     try {
-        const userRooms=await ChatRooms.find({"chat_users.user": userId}).select('roomId')
+        const userRooms=await ChatRooms.find({"chat_users.chat_user_id": userId}).select('roomId')
         const rooms=userRooms.map(room=> room.roomId)
         socket.leave(rooms)
+        console.log("userID: ",userId," left rooms on disconnection using socketID: ",socket.id)
     } catch (error) {
         console.log(error)
     }
@@ -61,9 +63,12 @@ const send_message=async(data)=>{
     const roomId=data.roomId
     const message=data.message
     const senderId=data.senderId
-    console.log("sending message")
+    console.log("Sender ID:",senderId," sending message to Room ID: ",roomId)
+    console.log("Message: ",message)
+    console.log("With socket id: ",socket.id)
     // Sending message to a room
-    socket.broadcast.to(roomId).emit('messageOut',{roomId,message})
+    io.sockets.in(roomId).emit('messageOut',{roomId,message})
+    
     try {
         // console.log(roomId)
         const room=await ChatRooms.findOne({"roomId":roomId})
@@ -87,6 +92,7 @@ const start_chat=async(data)=>{
     const receiverId=data.receiverId
     const chatType=senderId === receiverId ? 'single':'private'
     let rooms;
+    
     try {
         if(chatType === 'single'){
             console.log("single chat")
@@ -104,7 +110,9 @@ const start_chat=async(data)=>{
             send_message({roomId,message,senderId})
         }
         else{
-            console.log('starting chat')
+            console.log("Sender ID:",senderId," starting a chat with Receiver ID: ",receiverId)
+            console.log("Message: ",message)
+            console.log("Chat Type: ",chatType)
             const newChat=new ChatRooms({
                 roomId:mongoose.Types.ObjectId(),
                 chat_users: [{chat_user_id: senderId},{chat_user_id:receiverId}],
@@ -125,12 +133,29 @@ const start_chat=async(data)=>{
         console.log(error)
     }
 }
-
-const socketIO=async (serverSocket)=>{
+let io;
+const socketIO=async (ioServer,serverSocket)=>{
+    
+    io=ioServer
     socket=serverSocket
     // console.log(socket)
+    console.log("Testing Sockets")
+    const socketsList=Object.keys(serverSocket.server.sockets.connected)
+    const userId=serverSocket.request._query.userId
+    // const socketsList=Object.keys(socket.server.clients().adapter.nsp.sockets)
+    // console.log(socketsList)
+    // console.log(userId)
+    // console.log(socket.id)
+    console.log(socket.server.engine.clientsCount)
+
+    await join_userRooms(socket,userId)
+
+
+    socket.on('disconnect',()=>{
+        leave_userRooms(socket,userId)
+    })
     // an emit message from client will be generated to join user rooms from database
-    socket.on('join_userRooms',join_userRooms)
+    // socket.on('join_userRooms',join_userRooms)
     // Get All the rooms of user socket
     // socket.on('get_userRooms',get_userRooms)
     // Get all the messages of a specific chat room
@@ -141,7 +166,7 @@ const socketIO=async (serverSocket)=>{
     socket.on('start_chat',start_chat)
 
     // an emit message from client will be generated to leave user rooms
-    socket.on('leave_userRooms',leave_userRooms)
+    // socket.on('leave_userRooms',leave_userRooms)
 }
 
 module.exports=socketIO

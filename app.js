@@ -12,7 +12,10 @@ const server=http.createServer(app)
 const io=require('socket.io')(server)
 
 const socketIO=require('./sockets/socket-server')
-io.on('connection',socketIO)
+io.on('connection',(socket)=>{
+    socketIO(io,socket)
+} )
+
 
 // Parsing Body
 app.use(bodyParser.urlencoded({ extended: false }))

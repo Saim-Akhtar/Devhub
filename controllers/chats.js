@@ -22,6 +22,7 @@ module.exports={
     getChat:async(req,res,next)=>{
     // Fetch a specific chat of user using user.id
     const roomId=req.params.roomId
+    console.log(roomId)
     try {
         const chat=await Chats.findOne({"roomId": roomId})
                         .populate('chat_users.chat_user_id','_id github.userName profilePic')
