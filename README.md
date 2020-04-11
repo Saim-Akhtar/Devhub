@@ -1,6 +1,6 @@
 # Devhub
 
-An App for enabling connection between Developers
+An App for enabling connection between Developers using Full Stack
 
 ## Node backend in branch dev
 
