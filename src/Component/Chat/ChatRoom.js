@@ -2,6 +2,7 @@ import React from 'react'
 import Incoming from './Incoming'
 import Outgoing from './Outgoing'
 import {socketCall} from '../../Chatmerge'
+import {socketGetMessage} from '../../Chatmerge'
 import {GetChat} from '../../Action'
 import { connect } from 'react-redux'
 class ChatRoom extends React.Component{
@@ -15,6 +16,7 @@ class ChatRoom extends React.Component{
   
     componentDidMount(){
     this.props.GetChat(this.props.match.params.id)
+      socketGetMessage()
   }
   state={mess:'',data:{}}
   onSubmit=e=>{
