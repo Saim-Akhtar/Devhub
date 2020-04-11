@@ -9,21 +9,17 @@ class ChatRoom extends React.Component{
     if(nextProps.match.params.id != this.props.match.params.id){
       let data=this.props.GetChat(nextProps.match.params.id)
       console.log("now getting proprs")
-      console.log(nextProps.match.params.id)
-      console.log(this.props.match.params.id)
     }
     
   }
-  // async componentDidMount(){
-  //   let data=await getChat(this.props.match.params.id)
-  //   console.log(data)
-  //   this.setState({data})
-  //   // console.log(this.state)
-  // }
+  
+    componentDidMount(){
+    this.props.GetChat(this.props.match.params.id)
+  }
   state={mess:'',data:{}}
   onSubmit=e=>{
     e.preventDefault()
-    const id=this.props.chat.chat_users[0].chat_user_id
+    const id=this.props.chat.chat_users[1].chat_user_id._id
     // console.log(this.props.chat.chat_users[0].chat_user_id._id)
     const senderId=JSON.parse(localStorage.token).id
     // console.log(this.state.mess)
