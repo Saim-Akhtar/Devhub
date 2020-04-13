@@ -2,4 +2,4 @@
 
 An App for enabling connection between developers
 
-Soon
+Socket Chats in progress
