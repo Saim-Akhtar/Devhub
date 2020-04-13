@@ -67,7 +67,7 @@ const send_message=async(data)=>{
     console.log("Message: ",message)
     console.log("With socket id: ",socket.id)
     // Sending message to a room
-    io.sockets.in(roomId).emit('messageOut',{roomId,message})
+    io.sockets.in(roomId).emit('messageOut',{roomId,message,senderId})
     
     try {
         // console.log(roomId)
