@@ -78,3 +78,6 @@ export const GetChat=(roomId)=>async dispatch=>{
     let data=await getChat(roomId)
     dispatch({type:"GET_CHAT",payload:data})
 }
+export const NewMessage=(message)=>async dispatch=>{
+    dispatch({type:"NEW_MESSAGE",payload:message})
+}

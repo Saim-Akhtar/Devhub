@@ -14,9 +14,9 @@ const ModalExample = (props) => {
   } = props;
   let onSubmit=evt=>{
       evt.preventDefault()
-      console.log(mess)
+      // console.log(mess)
       const senderId=JSON.parse(localStorage.token).id
-      console.log(id)
+      // console.log(id)
       socketCall(mess,senderId,id)
         setModal(!modal);
   }

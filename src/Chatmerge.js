@@ -14,9 +14,13 @@ export const socketCall=(mess,senderId,id)=>{
     console.log(mess,senderId,id)
     socket.emit('start_chat',{message:mess,senderId:senderId,receiverId:id})
 }
-export const socketGetMessage=()=>{
+export const socketGetMessage=(callback1)=>{
     console.log("Get Message in room")
     socket.on('messageOut',(data)=>{
-        console.log(data)
+        let message={
+                  sender:data.senderId,
+                  text:data.message
+                }
+        callback1(message)
     })
 }
