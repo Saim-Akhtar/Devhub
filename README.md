@@ -8,6 +8,8 @@ https://devhub-node.herokuapp.com/user
 
 https://devhub-node.herokuapp.com/posts
 
+https://devhub-node.herokuapp.com/posts/:postId
+
 ## React UI in branch UI
 
 
